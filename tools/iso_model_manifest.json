@@ -1,0 +1,79 @@
+[
+  {
+    "name": "cow",
+    "input": "src/assets/iso/models/cow.glb",
+    "output": "src/assets/iso/generated/cow.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  },
+  {
+    "name": "wood_fence",
+    "input": "src/assets/iso/models/fence_wood.glb",
+    "output": "src/assets/iso/generated/fence_wood.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  },
+  {
+    "name": "flower_bed",
+    "input": "src/assets/iso/models/flower.glb",
+    "output": "src/assets/iso/generated/flower_bed.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  },
+  {
+    "name": "street_lamp",
+    "input": "src/assets/iso/models/victorian_street_lamp.glb",
+    "output": "src/assets/iso/generated/street_lamp.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.9,
+    "removeGround": true
+  },
+  {
+    "name": "stone_tiles",
+    "input": "src/assets/iso/models/stone_tiles.glb",
+    "output": "src/assets/iso/generated/stone_tiles.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  },
+  {
+    "name": "grass_tile",
+    "input": "src/assets/iso/models/farm_grass-tile.glb",
+    "output": "src/assets/iso/generated/grass_tile.png",
+    "size": 512,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  },
+  {
+    "name": "barn",
+    "input": "src/assets/iso/models/barn.glb",
+    "output": "src/assets/iso/generated/barn_model.png",
+    "size": 768,
+    "azimuth": 45,
+    "elevation": 35.264,
+    "rotation": 0,
+    "exposure": 0.85,
+    "removeGround": true
+  }
+]
