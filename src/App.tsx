@@ -390,7 +390,8 @@ const mediaQueries = `
   }
 
   /* FORCED DESTRUCTION STATE FOR CENTRAL OVERLAY CONTAINER DROPDOWNS */
-  div[style*="position: absolute"][style*="left: 50%"] > div[style*="display: flex"][style*="flex-direction: column"],
+  div[style*="position: absolute"][style*="left: 50%"],
+  div[style*="position: fixed"][style*="left: 50%"],
   div[class*="ObjectDropdown"],
   div[class*="SelectMenuOverlay"],
   div[style*="border-radius: 12px"][style*="width: 320px"],
