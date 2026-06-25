@@ -44,21 +44,6 @@ export default function App() {
   useGame(containerRef)
   useMultiplayer()
 
-  // Give 200 default coins to new players right on initial state registration
-  useEffect(() => {
-    if (worldLoaded && resources && resources.coins === 0 && !farmCreated) {
-      try {
-        if (typeof useGameStore.getState().buyTownProduce === 'function') {
-          useGameStore.setState((state: any) => ({
-            resources: { ...state.resources, coins: 200 }
-          }))
-        }
-      } catch (e) {
-        console.log("Initial coin injection reference error handled safely.", e)
-      }
-    }
-  }, [worldLoaded, farmCreated, resources])
-
   useEffect(() => {
     if (!farmCreated || !worldLoaded) return
     const id = window.setInterval(() => saveFarmNow(), 2500)
@@ -389,21 +374,11 @@ const mediaQueries = `
     display: none !important;
   }
 
-  /* FORCED DESTRUCTION STATE FOR CENTRAL OVERLAY CONTAINER DROPDOWNS */
-  div[style*="position: absolute"][style*="left: 50%"],
-  div[style*="position: fixed"][style*="left: 50%"],
-  div[class*="ObjectDropdown"],
-  div[class*="SelectMenuOverlay"],
-  div[style*="border-radius: 12px"][style*="width: 320px"],
-  div[style*="background: rgb(17, 19, 24)"][style*="flex-direction: column"],
-  .object-select-dropdown,
-  .build-menu-center-overlay {
+  /* DROPDOWN PANEL PERMANENTLY HIDDEN */
+  .hud-build-panel {
     display: none !important;
     visibility: hidden !important;
-    opacity: 0 !important;
     pointer-events: none !important;
-    width: 0 !important;
-    height: 0 !important;
   }
 
   @media (max-width: 1023px) {
