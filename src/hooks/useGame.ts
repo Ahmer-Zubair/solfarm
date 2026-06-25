@@ -12,6 +12,7 @@ import { api } from '../lib/api'
 import { txPlaceBlock, txMineBlock, shortKey, lamportsToSol } from '../lib/solana'
 
 const FEE_ESTIMATE = 0.000005
+const STARTING_COINS = 200
 
 function mkSig(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789'
@@ -120,17 +121,31 @@ export function useGame(containerRef: RefObject<HTMLDivElement>) {
     const loadedLocal = !resetApplied && store.loadFarmSave()
     if (!loadedLocal) {
       void supabaseData.loadFarm().then((cloudSave) => {
-        if (cloudSave) store.importFarmSave(JSON.stringify(cloudSave))
+        if (cloudSave) {
+          // Cloud save load karo lekin coins hamesha 200 se start honge
+          const parsed = typeof cloudSave === 'string' ? JSON.parse(cloudSave) : cloudSave
+          if (parsed && parsed.resources) {
+            parsed.resources.coins = STARTING_COINS
+          }
+          store.importFarmSave(JSON.stringify(parsed))
+        }
       })
     }
+
+    // Local save load hone ke baad bhi coins cap karo 200 par agar farmCreated nahi hai
+    const currentState = useGameStore.getState()
+    if (!currentState.farmCreated && currentState.resources.coins > STARTING_COINS) {
+      useGameStore.setState((state: any) => ({
+        resources: { ...state.resources, coins: STARTING_COINS }
+      }))
+    }
+
     const loaded = useGameStore.getState()
     const seed = loaded.seed
     const world = loaded.isoWorld ?? generateIsoWorld(seed)
     worldRef.current = world
     useGameStore.getState().setIsoWorld(world, seed)
     useGameStore.getState().setWorld(new Uint8Array(256 * 128), seed)
-    // Cloud restore is intentionally paused for the empty-farm reset release.
-    // New local and backend saves continue from the clean farm.
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
