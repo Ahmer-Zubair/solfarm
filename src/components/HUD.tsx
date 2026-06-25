@@ -25,6 +25,9 @@ export default function HUD() {
   const isTown = store.activeFarmId === 'town'
   const visibleModes = isTown ? MODES.filter((mode) => mode.id === 'inspect') : MODES
 
+  // Actual dynamic coins balance tracker from state store
+  const currentCoins = store.resources?.coins ?? 200
+
   return (
     <div className="game-hud" style={styles.hud}>
       <div className="game-hud__brand" style={styles.left}>
@@ -32,6 +35,10 @@ export default function HUD() {
           SOL<span style={{ color: '#9ce55a' }}>FARM</span>
         </span>
         <span style={styles.badge}>{isTown ? 'town district' : 'isometric devnet'}</span>
+        {/* Dynamic global coins tracker label added seamlessly for live verification */}
+        <span style={{ ...styles.badge, background: 'rgba(240,192,64,0.12)', borderColor: 'rgba(240,192,64,0.3)', color: '#f0c040', marginLeft: '4px' }}>
+          {currentCoins.toLocaleString()} C
+        </span>
       </div>
 
       <div className="game-hud__modes" style={styles.center}>
