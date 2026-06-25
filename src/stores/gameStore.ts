@@ -7,7 +7,7 @@ import { FARM_CROPS, FARMER_PROFESSIONS, type CropType } from '../lib/farmCatalo
 import { supabaseData, type TownPlayer } from '../lib/supabase'
 
 const TOWN_WORLD = createTownPlazaWorld()
-const DEMO_COIN_BALANCE = 999_999_999
+const DEMO_COIN_BALANCE = 200
 
 export type TxEntry = {
   id: string
@@ -648,7 +648,7 @@ function normalizeResources(resources: Partial<Resources> | undefined): Resource
     wood: resources?.wood ?? 24,
     stone: resources?.stone ?? 18,
     crops: resources?.crops ?? 6,
-    coins: DEMO_COIN_BALANCE,
+    coins: resources?.coins ?? DEMO_COIN_BALANCE,
     farmPoints: resources?.farmPoints ?? 0,
     harvestTickets: resources?.harvestTickets ?? 0,
     animalFeed: resources?.animalFeed ?? 6,
@@ -891,7 +891,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const canPay = resources.wood >= (cost.wood ?? 0)
       && resources.stone >= (cost.stone ?? 0)
       && resources.crops >= (cost.crops ?? 0)
-      && DEMO_COIN_BALANCE >= (cost.coins ?? 0)
+      && resources.coins >= (cost.coins ?? 0)
       && resources.farmPoints >= (cost.farmPoints ?? 0)
       && resources.harvestTickets >= (cost.harvestTickets ?? 0)
       && resources.animalFeed >= (cost.animalFeed ?? 0)
@@ -903,10 +903,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!canPay) return false
     set((s) => ({
       resources: {
+        ...s.resources,
         wood: s.resources.wood - (cost.wood ?? 0),
         stone: s.resources.stone - (cost.stone ?? 0),
         crops: s.resources.crops - (cost.crops ?? 0),
-        coins: DEMO_COIN_BALANCE,
+        coins: s.resources.coins - (cost.coins ?? 0),
         farmPoints: s.resources.farmPoints - (cost.farmPoints ?? 0),
         harvestTickets: s.resources.harvestTickets - (cost.harvestTickets ?? 0),
         animalFeed: s.resources.animalFeed - (cost.animalFeed ?? 0),
@@ -1879,4 +1880,3 @@ export const makeTx = (
   coords,
   status,
 })
-
