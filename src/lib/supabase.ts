@@ -1,6 +1,8 @@
 const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || ''
 
+const STARTING_COINS = 200
+
 type SupabaseSession = {
   access_token: string
   refresh_token: string
@@ -133,7 +135,18 @@ export const supabaseData = {
     const rows = await rest<Array<{ save_data: T }>>(
       `farm_saves?select=save_data&user_id=eq.${encodeURIComponent(session.user.id)}&limit=1`,
     )
-    return rows?.[0]?.save_data ?? null
+    const saveData = rows?.[0]?.save_data ?? null
+
+    // Cloud se load hone ke baad coins hamesha 200 set honge
+    // Taake koi bhi purana ya manipulated save kaam na kare
+    if (saveData && typeof saveData === 'object') {
+      const data = saveData as any
+      if (data.resources && typeof data.resources.coins === 'number') {
+        data.resources.coins = STARTING_COINS
+      }
+    }
+
+    return saveData
   },
 
   async listChat() {
