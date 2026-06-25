@@ -2,7 +2,6 @@ import React from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { useGameStore, type GameMode } from '../stores/gameStore'
-import { ISO_OBJECTS, isoColor } from '../lib/IsoConstants'
 
 const MODES: { id: GameMode; label: string; tip: string }[] = [
   { id: 'terrain', label: 'terrain', tip: 'Paint ground tiles' },
@@ -121,26 +120,6 @@ export default function HUD() {
         )}
       </div>
 
-      {!isTown && store.gameMode === 'build' && (
-        <div className="hud-build-panel" style={styles.buildPanel}>
-          {Object.entries(ISO_OBJECTS)
-            .filter(([key]) => !['TRAVEL_PORTAL', 'DECOR_BENCH', 'DECOR_LAMP', 'SHEEP', 'HORSE'].includes(key))
-            .map(([key, obj]) => (
-              <button
-                key={key}
-                onClick={() => store.setSelectedObjectType(key)}
-                title={`${obj.label} - ${obj.solValue.toFixed(3)} SOL`}
-                style={{
-                  ...styles.objectBtn,
-                  ...(store.selectedObjectType === key ? styles.objectBtnActive : {}),
-                }}
-              >
-                <span style={{ ...styles.objectSwatch, background: isoColor(obj.color) }} />
-                <span>{obj.label}</span>
-              </button>
-            ))}
-        </div>
-      )}
       {store.selectedActionLabel && (
         <div style={styles.actionToast}>{store.selectedActionLabel}</div>
       )}
@@ -305,53 +284,6 @@ const styles: Record<string, React.CSSProperties> = {
     height: 5,
     borderRadius: '50%',
     background: '#9ce55a',
-  },
-  buildPanel: {
-    position: 'absolute',
-    top: 46,
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: 520,
-    maxWidth: 'calc(100vw - 24px)',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(82px, 1fr))',
-    gap: 5,
-    padding: 8,
-    background: 'rgba(13,15,20,0.96)',
-    border: '1px solid rgba(156,229,90,0.25)',
-    borderRadius: 8,
-    boxShadow: '0 12px 36px rgba(0,0,0,0.5)',
-    zIndex: 1000,
-    boxSizing: 'border-box',
-  },
-  objectBtn: {
-    height: 32,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    padding: '0 8px',
-    border: '1px solid rgba(255,255,255,0.06)',
-    borderRadius: 5,
-    background: '#141720',
-    color: '#8892a4',
-    fontSize: 9,
-    fontFamily: 'var(--font-mono)',
-    textTransform: 'uppercase',
-    cursor: 'pointer',
-    transition: 'all 0.12s ease',
-    boxSizing: 'border-box',
-  },
-  objectBtnActive: {
-    borderColor: 'rgba(156,229,90,0.6)',
-    color: '#9ce55a',
-    background: 'rgba(156,229,90,0.08)',
-    boxShadow: '0 0 8px rgba(156,229,90,0.12)',
-  },
-  objectSwatch: {
-    width: 12,
-    height: 12,
-    borderRadius: 2,
-    boxShadow: 'inset 0 -2px 0 rgba(0,0,0,0.22)',
-    flexShrink: 0,
   },
   actionToast: {
     position: 'absolute',
